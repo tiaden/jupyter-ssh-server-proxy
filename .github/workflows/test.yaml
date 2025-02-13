@@ -31,4 +31,5 @@ jobs:
     - name: Test with pytest
       run: |
         export JUPYTER_SSHD_PROXY_LOG_LEVEL=DEBUG
+        export JUPYTER_SSHD_USE_FALL_BACK=True
         pytest tests/
