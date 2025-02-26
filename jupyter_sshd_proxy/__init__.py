@@ -4,6 +4,7 @@ import subprocess
 
 from typing import Any, Dict
 
+MCHUB_PATH= "/opt/miircic/mchub"
 HOSTKEY_PATH = os.path.expanduser('~/.ssh/jupyter_sshd_hostkey')
 AUTHORIZED_KEYS_PATH = os.environ.get('JUPYTER_SSHD_PROXY_AUTHORIZED_KEYS_PATH', '.ssh/authorized_keys .ssh/authorized_keys2')
 SSHD_LOG_LEVEL = os.environ.get('JUPYTER_SSHD_PROXY_LOG_LEVEL', 'INFO')
@@ -12,10 +13,9 @@ USE_FALL_BACK = os.environ.get('JUPYTER_SSHD_USE_FALL_BACK', False)
 def setup_sshd() -> Dict[str, Any]:
     cmd =[]
     if not USE_FALL_BACK:
-        sshd_path = shutil.which('mchub')
-        if sshd_path:
+        if os.path.exists(MCHUB_PATH):
             cmd = [
-                sshd_path, 'ssh-server', '-l', '127.0.0.1:{port}',
+                MCHUB_PATH, 'ssh-server', '-l', '127.0.0.1:{port}',
             ]
     else:
         if not os.path.exists(HOSTKEY_PATH):
